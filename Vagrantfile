@@ -20,16 +20,18 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder ".", "/var/www/html", :mount_options => ["dmode=777", "fmode=666"]
  
   # Provision Settings
-  config.vm.provision "shell", inline: <<-SHELL
-    sudo yum install gcc -y
-    sudo yum install kernel-devel -y
-    sudo kernel-devel-3.10.0-862.2.3.el7.x86_64 -y
-    #mount optical drives dulu. sebelum sampai provision, buka console VM lepas tu  klik Devices > Insert Guest Additions CD Image
-    sudo mount /dev/cdrom /mnt/
-    cd /mnt
-    sudo ./VBoxLinuxAdditions.run
-    setenforce 0
-  SHELL
+  # config.vm.provision "shell", inline: <<-shell
+  #   sudo yum install gcc -y
+  #   sudo yum install kernel-devel -y
+  #   sudo kernel-devel-3.10.0-862.2.3.el7.x86_64 -y
+  #   #mount optical drives dulu. sebelum sampai provision, buka console vm lepas tu  klik devices > insert guest additions cd image
+  #   sudo mount /dev/cdrom /mnt/
+  #   cd /mnt
+  #   sudo ./vboxlinuxadditions.run
+  #   setenforce 0
+  # shell
+
+  config.vm.provision "shell", path: "bootstrap.sh"
 
   
 end
