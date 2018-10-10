@@ -9,6 +9,13 @@ Vagrant.configure("2") do |config|
   config.vm.provider "virtualbox" do |vb|
     vb.memory = 2048
     vb.cpus = 4
+    #Add Optical Drive
+    #Need to open VM and click Device > Insert VBox Additions Guest during boot up 
+    vb.customize ["storageattach", :id, 
+                "--storagectl", "IDE", 
+                "--port", "0", "--device", "1", 
+                "--type", "dvddrive", 
+                "--medium", "emptydrive"]    
   end
 
   # Network Settings
@@ -17,8 +24,9 @@ Vagrant.configure("2") do |config|
   # config.vm.network "public_network"
 
   # Folder Settings
-  config.vm.synced_folder ".", "/var/www/html", :mount_options => ["dmode=777", "fmode=666"]
- 
+  # Comment out  (, disabled: true) after provisining and vagrant reload to get Folder Settings work after VBox Additions Guest installed
+  config.vm.synced_folder ".", "/var/www/html", :mount_options => ["dmode=777", "fmode=666"], disabled: true
+
   # Provision Settings
   # config.vm.provision "shell", inline: <<-shell
   #   sudo yum install gcc -y
@@ -27,7 +35,7 @@ Vagrant.configure("2") do |config|
   #   #mount optical drives dulu. sebelum sampai provision, buka console vm lepas tu  klik devices > insert guest additions cd image
   #   sudo mount /dev/cdrom /mnt/
   #   cd /mnt
-  #   sudo ./vboxlinuxadditions.run
+  #   sudo ./VBoxLinuxAdditions.run
   #   setenforce 0
   # shell
 
